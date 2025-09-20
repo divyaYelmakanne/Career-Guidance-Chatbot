@@ -89,12 +89,13 @@ Bot: ✅ Based on your skills, I suggest you explore a career as: Data Scientist
 
 ## 👤 Author
 
-Divya Yelmakanne
-Email: divyayelmakanne@gmail.com
-GitHub: https://github.com/divyaYelmakanne
+Divya Yelmakanne                                                                                                                                                             
+Email: divyayelmakanne@gmail.com                                                                                                                                             
+GitHub: https://github.com/divyaYelmakanne                                                                                                                                   
 
 ---
 
 ## 📄 License
 
 This project is licensed under the MIT License.
+
