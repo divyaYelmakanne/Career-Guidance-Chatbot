@@ -1,0 +1,56 @@
+Bot: Hi! I’ll ask you about your skills.
+Rate your skill level in Database Fundamentals (1-7):
+You: 4
+Bot: Rate your skill level in Computer Architecture (1-7):
+You: 3
+Bot: Rate your skill level in Distributed Computing Systems (1-7):
+You: 2
+Bot: Rate your skill level in Cyber Security (1-7):
+You: 5
+Bot: Rate your skill level in Networking (1-7):
+You: 3
+Bot: Rate your skill level in Software Development (1-7):
+You: 4
+Bot: Rate your skill level in Programming Skills (1-7):
+You: 7
+Bot: Rate your skill level in Project Management (1-7):
+You: 3
+Bot: Rate your skill level in Computer Forensics Fundamentals (1-7):
+You: 6
+Bot: Rate your skill level in Technical Communication (1-7):
+You: 7
+Bot: Rate your skill level in AI ML (1-7):
+You: 5
+Bot: Rate your skill level in Software Engineering (1-7):
+You: 4
+Bot: Rate your skill level in Business Analysis (1-7):
+You: 3
+Bot: Rate your skill level in Communication skills (1-7):
+You: 4
+Bot: Rate your skill level in Data Science (1-7):
+You: 3
+Bot: Rate your skill level in Troubleshooting skills (1-7):
+You: 5
+Bot: Rate your skill level in Graphics Designing (1-7):
+You: 6
+Bot: Rate your skill level in Openness (1-7):
+You: 2
+Bot: Rate your skill level in Conscientousness (1-7):
+You: 4
+Bot: Rate your skill level in Extraversion (1-7):
+You: 3
+Bot: Rate your skill level in Agreeableness (1-7):
+You: 2
+Bot: Rate your skill level in Emotional_Range (1-7):
+You: 5
+Bot: Rate your skill level in Conversation (1-7):
+You: 2
+Bot: Rate your skill level in Openness to Change (1-7):
+You: 1
+Bot: Rate your skill level in Hedonism (1-7):
+You: 3
+Bot: Rate your skill level in Self-enhancement (1-7):
+You: 5
+Bot: Rate your skill level in Self-transcendence (1-7):
+You: 6
+Bot: ✅ Based on your skills, I suggest you explore a career as: **Graphics Designer**

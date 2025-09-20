@@ -1,0 +1,6 @@
+EXECUTION COMMANDS : 
+
+
+->  cd C:\Users\DELL\Desktop\career
+
+->  python chatbot.py
