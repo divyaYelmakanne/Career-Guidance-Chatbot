@@ -14,7 +14,7 @@ def load_data():
 
     # Encode target (career roles)
     le = LabelEncoder()
-    df["Role"] = le.fit_transform(df["Role"])  # Assuming target column is "Role"
+    df["Role"] = le.fit_transform(df["Role"])
 
     # Encode non-numeric features (if any)
     for col in df.columns:
@@ -44,60 +44,66 @@ model, questions = train_model(df)
 st.set_page_config(page_title="Career Guidance Chatbot", layout="centered")
 st.title("💼 Career Guidance Chatbot")
 
-# Session state
+# Session state initialization
 if "answers" not in st.session_state:
     st.session_state.answers = []
 if "current_q" not in st.session_state:
     st.session_state.current_q = 0
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
+if "show_input" not in st.session_state:
+    st.session_state.show_input = True
 
 # -------------------------
 # Chatbot Logic
 # -------------------------
-def chatbot_response(user_input=""):
-    if user_input != "":
+def chatbot_response(user_input):
+    if user_input:
         try:
             st.session_state.answers.append(int(user_input))
-        except:
-            st.session_state.answers.append(0)  # Default if invalid
+        except ValueError:
+            # Handle invalid input gracefully
+            st.session_state.chat_history.append(f"**Bot:** ⚠️ Please enter a number between 1 and 7.")
+            return
+
+    # Check for prediction
+    if len(st.session_state.answers) == len(questions):
+        st.session_state.show_input = False # Hide input box after prediction
+        user_features = pd.DataFrame([st.session_state.answers], columns=questions)
+        prediction = model.predict(user_features)[0]
+        career = le.inverse_transform([prediction])[0]
+        st.session_state.chat_history.append(f"**Bot:** ✅ Based on your skills, I suggest you explore a career as: **{career}**")
+        return
 
     # Ask next question
     if st.session_state.current_q < len(questions):
         bot_msg = f"Rate your skill level in **{questions[st.session_state.current_q]}** (1-7):"
         st.session_state.current_q += 1
-        return bot_msg
-    else:
-        # All answers collected → Predict career
-        if len(st.session_state.answers) == len(questions):
-            user_features = pd.DataFrame([st.session_state.answers], columns=questions)
-            prediction = model.predict(user_features)[0]
-            career = le.inverse_transform([prediction])[0]
-            return f"✅ Based on your skills, I suggest you explore a career as: **{career}**"
-        else:
-            return "⚠️ Not enough data collected!"
+        st.session_state.chat_history.append(f"**Bot:** {bot_msg}")
+
+
+def handle_input():
+    # Only process input if a non-empty string is provided
+    if st.session_state.input_key:
+        user_input = st.session_state.input_key
+        st.session_state.chat_history.append(f"**You:** {user_input}")
+        chatbot_response(user_input)
+        st.session_state.input_key = "" # Clear the input box by resetting its key in session state
+
 
 # -------------------------
 # Display Chat History
 # -------------------------
+# This section is always active, displaying the chat history
 for chat in st.session_state.chat_history:
     st.markdown(chat)
 
-# Input box
-user_input = st.text_input("Your answer (1-7):", key="input")
-
-if st.button("Send") and user_input:
-    chat_output = f"**You:** {user_input}\n\n"
-    bot_reply = chatbot_response(user_input)
-    chat_output += f"**Bot:** {bot_reply}\n\n"
-
-    st.session_state.chat_history.append(chat_output)
-    st.session_state.input = ""  # clear input
-    st.rerun()
-
-# Start conversation if first run
+# Start conversation if it's the first run
 if st.session_state.current_q == 0 and not st.session_state.chat_history:
-    welcome_msg = "Bot: Hi! I’ll ask you about your skills.\n"
-    first_q = chatbot_response()
-    st.session_state.chat_history.append(f"**Bot:** {first_q}\n\n")
-    st.rerun()
+    st.session_state.chat_history.append(f"**Bot:** Hi! I'll ask you about your skills.")
+    st.session_state.current_q += 1
+    st.session_state.chat_history.append(f"**Bot:** Rate your skill level in **{questions[st.session_state.current_q-1]}** (1-7):")
+
+# Input box section at the bottom
+if st.session_state.show_input:
+    st.text_input("Your answer (1-7):", key="input_key", on_change=handle_input)
