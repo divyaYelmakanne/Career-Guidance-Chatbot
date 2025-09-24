@@ -1,4 +1,4 @@
-This code is the Tkinter version of the AI Health Assistant.
+This code is the Tkinter version of the Career-Guidance-Chatbot.
 👉 Use this only if you want to run the chatbot as a desktop application on your local computer.
 
 It will open in a window (GUI), not in the browser.
