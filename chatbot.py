@@ -6,6 +6,14 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import LabelEncoder
 
 # -------------------------
+# Streamlit UI Setup
+# -------------------------
+# This MUST be the first Streamlit command.
+st.set_page_config(page_title="Career Guidance Chatbot", layout="centered")
+
+st.title("💼 Career Guidance Chatbot")
+
+# -------------------------
 # Load & Preprocess Dataset
 # -------------------------
 @st.cache_data
@@ -34,17 +42,14 @@ def train_model(df):
     model.fit(X_train, y_train)
     return model, list(X.columns)
 
-# Load
+# Load data and train model
 df, le = load_data()
 model, questions = train_model(df)
 
-# -------------------------
-# Streamlit UI Setup
-# -------------------------
-st.set_page_config(page_title="Career Guidance Chatbot", layout="centered")
-st.title("💼 Career Guidance Chatbot")
 
-# Session state initialization
+# -------------------------
+# Session State Initialization
+# -------------------------
 if "answers" not in st.session_state:
     st.session_state.answers = []
 if "current_q" not in st.session_state:
@@ -62,7 +67,6 @@ def chatbot_response(user_input):
         try:
             st.session_state.answers.append(int(user_input))
         except ValueError:
-            # Handle invalid input gracefully
             st.session_state.chat_history.append(f"**Bot:** ⚠️ Please enter a number between 1 and 7.")
             return
 
@@ -81,20 +85,16 @@ def chatbot_response(user_input):
         st.session_state.current_q += 1
         st.session_state.chat_history.append(f"**Bot:** {bot_msg}")
 
-
 def handle_input():
-    # Only process input if a non-empty string is provided
-    if st.session_state.input_key:
-        user_input = st.session_state.input_key
+    if st.session_state.user_input:
+        user_input = st.session_state.user_input
         st.session_state.chat_history.append(f"**You:** {user_input}")
         chatbot_response(user_input)
-        st.session_state.input_key = "" # Clear the input box by resetting its key in session state
-
+        st.session_state.user_input = ""
 
 # -------------------------
-# Display Chat History
+# Display Chat History & Input
 # -------------------------
-# This section is always active, displaying the chat history
 for chat in st.session_state.chat_history:
     st.markdown(chat)
 
@@ -106,4 +106,4 @@ if st.session_state.current_q == 0 and not st.session_state.chat_history:
 
 # Input box section at the bottom
 if st.session_state.show_input:
-    st.text_input("Your answer (1-7):", key="input_key", on_change=handle_input)
+    st.text_input("Your answer (1-7):", key="user_input", on_change=handle_input)
